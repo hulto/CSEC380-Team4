@@ -1,5 +1,4 @@
-services:
-  hello-world:
-    build: app/
-    ports:
-      - "80:80"
+hello-world:
+  build: app/
+  ports:
+    - "80:80"
