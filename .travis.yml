@@ -5,7 +5,7 @@ services:
   
 before_install:
   - docker build -t 380app ./app/  
-  - docker run -p 80:80 380app -d
+  - docker run -d -p 80:80 380app
   
 install:
   - pip install -r requirements.txt
