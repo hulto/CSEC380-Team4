@@ -1,9 +1,11 @@
 # auth.py
 
 from flask import Blueprint, render_template, request, url_for, redirect, flash
-from . import db
+from flask_login import login_user
+from .webserver import functiondb, initdb as db
 
-auth = Blueprint('auth', __name__)
+
+auth = Blueprint('auth', __name__, template_folder='webserver/templates')
 
 
 @auth.route('/login')
@@ -35,8 +37,11 @@ def login_post():
     password = request.form.get('password')
     remember = True if request.form.get('remember') else False
 
-    if check_password(username, password):
+    user = db.User.query.filter_by(uname=username).first()
+
+    if functiondb.check_password(username, password):
         flash('Please check your login details and try again.')
         return redirect(url_for('auth.login'))
 
+    login_user(user, remember=remember)
     return redirect(url_for('main.profile'))

@@ -2,6 +2,8 @@ from sqlalchemy import create_engine
 from sqlalchemy import Column, Integer, String, BLOB, Date, ForeignKey
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+from flask_login import UserMixin, LoginManager
+
 Base = declarative_base()
 
 #  sqlite:///:memory: (or, sqlite://)
@@ -45,14 +47,25 @@ class Comment(Base):
 Base.metadata.create_all(engine)
 
 password123_hash = "bed4efa1d4fdbd954bd3705d6a2a78270ec9a52ecfbfb010c61862af5c76af1761ffeb1aef6aca1bf5d02b3781aa854fabd2b69c790de74e17ecfec3cb6ac4bf"
-user_hulto = User(fname='Jack McKenna', \
-    uname='hulto', \
-    passwd=password123_hash, \
-    role=0)
-user_oneeyed = User(fname='Jacob Ruud', \
-    uname='oneeyedgrape', \
-    passwd=password123_hash, \
-    role=0)
+user_hulto = User(fname='Jack McKenna',
+                  uname='hulto',
+                  passwd=password123_hash,
+                  role=0)
+user_oneeyed = User(fname='Jacob Ruud',
+                    uname='oneeyedgrape',
+                    passwd=password123_hash,
+                    role=0)
+
+
+login_manager = LoginManager()
+login_manager.login_view = 'auth.login'
+login_manager.init_app(app)
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    # since the user_id is just the primary key of our user table, use it in the query for the user
+    return User.query.get(int(user_id))
 
 
 if __name__ == "__main__":
