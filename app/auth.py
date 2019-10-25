@@ -39,9 +39,9 @@ def login_post():
 
     user = db.User.query.filter_by(uname=username).first()
 
-    if functiondb.check_password(username, password):
+    if not functiondb.check_password(username, password):
         flash('Please check your login details and try again.')
         return redirect(url_for('auth.login'))
-
+    
     login_user(user, remember=remember)
     return redirect(url_for('main.profile'))
