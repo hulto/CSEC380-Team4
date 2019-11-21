@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, request, url_for, redirect, flash
 from flask_login import login_user, login_manager, logout_user, current_user
 from webserver import functiondb as db
-
-
+from werkzeug.utils import secure_filename
+from os.path import join as ospathjoin
 videos = Blueprint('videos', 'videos', template_folder='webserver/templates')
 
 
@@ -20,11 +20,10 @@ def upload_file():
         if file.filename == '':
             flash('No selected file')
             return redirect(request.url)
-        if file and allowed_file(file.filename):
+        if file:
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('uploaded_file',
-                                    filename=filename))
+            file.save(ospathjoin("/tmp/", filename))
+            return redirect('/')
     return render_template('upload.html')
     
 @videos.route('/delete', methods=['POST'])
