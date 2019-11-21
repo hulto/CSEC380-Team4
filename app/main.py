@@ -2,10 +2,14 @@ from flask import render_template, Flask
 from flask_login import login_required, current_user, login_manager, LoginManager
 
 from webserver.auth import auth
+from webserver.videos import videos
+
 from webserver import functiondb as db
 
 app = Flask(__name__, template_folder='webserver/templates')
 app.register_blueprint(auth)
+app.register_blueprint(videos)
+
 
 app.secret_key = 'UntilOneDayWhenTheFireNationAttacked'
 login_manager = LoginManager()
@@ -18,7 +22,6 @@ def load_user_main(userid):
         return db.load_user(userid)
     except Exception as e :
         return None
-
 
 @app.route('/')
 def index():

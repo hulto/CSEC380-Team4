@@ -1,0 +1,15 @@
+from flask import Blueprint, render_template, request, url_for, redirect, flash
+from flask_login import login_user, login_manager, logout_user, current_user
+from webserver import functiondb as db
+
+
+videos = Blueprint('videos', 'videos', template_folder='webserver/templates')
+
+
+@auth.route('/login')
+def login():
+    print("Current user")
+    print(current_user)
+    if(current_user.is_authenticated):
+        return redirect('/')
+    return render_template('login.html')
