@@ -42,6 +42,8 @@ def login_post():
     password = request.form.get('password')
     remember = True if request.form.get('remember') else False
 
+    print("login_post()")
+    print("Current user %s is authenticated %s" %(str(current_user.get_id()), current_user.is_authenticated))
     #user = db.session.query(User).filter_by(uname=username).first()
     user = None
     user = db.check_password(username, password)

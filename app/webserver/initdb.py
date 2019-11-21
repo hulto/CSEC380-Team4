@@ -1,5 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy import Column, Integer, String, BLOB, Date, ForeignKey
+from sqlalchemy.dialects.postgresql import BYTEA
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from flask_login import UserMixin, LoginManager, login_manager
@@ -10,7 +11,8 @@ Base = declarative_base()
 #  sqlite:///relative/path/to/file.db
 #  sqlite:////absolute/path/to/file.db
 # sqlite for testing... [TODO]
-engine = create_engine('sqlite:////tmp/tmpdb.sql')
+#engine = create_engine('sqlite:////tmp/tmpdb.sql')
+engine = create_engine('postgresql://localhost/thetube')
 
 Session = sessionmaker(bind=engine)
 session = Session()
@@ -27,7 +29,9 @@ class User(UserMixin, Base):
     def is_active():
         return True
 
-    def is_authenticated():
+    def is_authenticated(a):
+        print("a.uname == %s" % (str(a.uname)))
+        #print("is_authenticated(%s)" % (str(a)))
         return True
     
     def is_anonymous():
@@ -36,6 +40,9 @@ class User(UserMixin, Base):
     def get_id(myid):
         return myid.id
 
+    def get_uname(self):
+        return self.uname
+
 
 
 class Video(Base):
@@ -43,7 +50,7 @@ class Video(Base):
 
     id = Column(Integer, primary_key=True)
     title = Column(String, nullable=False)
-    content = Column(BLOB, nullable=False)
+    content = Column(BYTEA, nullable=False)
     description = Column(String, nullable=False)
     timestamp = Column(Date, nullable=False)
     owner = Column(Integer, ForeignKey('user.id'), nullable=False)

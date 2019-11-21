@@ -15,9 +15,6 @@ login_manager.login_view = 'login'
 @login_manager.user_loader
 def load_user_main(userid):
     try:
-        # print("Login manager managing")
-        print(db.load_user(userid))
-        print("Yoinks")
         return db.load_user(userid)
     except Exception as e :
         return None
@@ -25,11 +22,16 @@ def load_user_main(userid):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    username = None
+    if current_user.is_authenticated:
+        username = current_user.get_uname()
+    return render_template('index.html', user=username)
 
 @app.route('/profile')
 def profile():
-    return render_template('index.html')
+    print("Profile is authed? %s" % (str(current_user.is_authenticated)))
+    print(current_user.get_uname())
+    return render_template('profile.html', name=current_user.get_uname())
 
 if __name__ == "__main__":
     app.run(debug=True, port=9000)

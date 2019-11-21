@@ -8,9 +8,6 @@ from .initdb import User, session
 
 def load_user(userid):
     try:
-        print("Login manager managing")
-        print(session.query(User).filter(User.id == userid).first())
-        print("Yoinks")
         return session.query(User).filter(User.id == userid).first()
     except Exception as e :
         return None
@@ -23,7 +20,10 @@ def check_password(username, password):
     print("check_password(%s, %s)" % (username, password))
     res = None
     query = session.query(User)
-    tmp = query.filter(User.uname==username).one()
+    try:
+        tmp = query.filter(User.uname==username).one()
+    except Exception as e:
+        return "None"
 
     real_password = tmp.passwd
     check_password = hashlib.sha512(password.encode()).hexdigest()
