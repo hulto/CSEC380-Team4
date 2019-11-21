@@ -1,31 +1,34 @@
-<!-- templates/login.html -->
+<html>
 
-{% extends "base.html" %}
+<head>
+    <meta charset="UTF-8">
+    <title>TheTube - Login</title>
+    {% include 'headers.html' %}
+</head>
 
-{% block content %}
-<div class="column is-4 is-offset-4">
-    <h3 class="title">Login</h3>
-    <div class="box">
+<body>
+    {% include 'topnavigation.html' %}
+     <div class="container-fluid">
         <form method="POST" action="/login">
-            <div class="field">
+            <div class="form-group">
                 <div class="control">
-                    <input class="input is-large" type="text" name="username" placeholder="Your Email" autofocus="">
+                    <input class="input is-large" type="text" name="username" placeholder="Your Username">
                 </div>
             </div>
-
-            <div class="field">
+            <div class="form-group">
                 <div class="control">
                     <input class="input is-large" type="password" name="password" placeholder="Your Password">
                 </div>
             </div>
-            <div class="field">
-                <label class="checkbox">
-                    <input type="checkbox">
-                    Remember me
-                </label>
-            </div>
             <button class="button is-block is-info is-large is-fullwidth">Login</button>
         </form>
     </div>
-</div>
-{% endblock %}
+    <!--
+    {% include 'footer.html' %} -->
+</body>
+
+</html>
+
+
+
+

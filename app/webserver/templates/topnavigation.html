@@ -7,9 +7,11 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
+            <!--
             <li class="nav-item active">
                 <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
             </li>
+            -->
             <li class="nav-item">
                 <a class="nav-link" href="#">Link</a>
             </li>
@@ -31,13 +33,12 @@
         </ul>
         <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <a class="btn btn-outline-success my-2 my-sm-2" href="{{ url_for('auth.logout') }}">Logout</a>
-            <a class="btn btn-outline-success my-2 my-sm-2" href="{{ url_for('auth.login') }}">Login</a>
-            <a class="btn btn-outline-success my-2 my-sm-0" href="/logout">Logout</a>
             {% if user is not none %}
-                <a class="btn btn-outline-success my-2 my-sm-0" href="/profile">{{ user or "Profile" }} </a>
+                <a class="btn btn-outline-success my-2 my-sm-0" href="{{ url_for('auth.logout') }}">Logout</a>
+                <a class="btn btn-outline-success my-2 my-sm-0" href="{{ url_for('profile') }}">{{ user or "Profile" }} </a>
             {% else %}
-                <a class="btn btn-outline-success my-2 my-sm-0" href="/login">{{ user or "Login" }}</a>
+                <a class="btn btn-outline-success my-2 my-sm-0" href="{{ url_for('auth.signup') }}">Sign Up</a>
+                <a class="btn btn-outline-success my-2 my-sm-0" href="{{ url_for('auth.login') }}">{{ user or "Login" }}</a>
             {% endif %}
         </form>
     </div>

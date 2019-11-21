@@ -1,19 +1,27 @@
-<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>TheTube - Upload Video</title>
+    {% include 'headers.html' %}
 </head>
+
 <body>
-    <form method="post" action="/upload" enctype="multipart/form-data">
-    <dl>
-		<p>
-			<input type="file" name="file" autocomplete="off" required>
-		</p>
-    </dl>
-    <p>
-		<input type="submit" value="Submit">
-	</p>
-</form>
+    {% include 'topnavigation.html' %}
+    <div class="container-fluid">
+        <form method="post" action="/upload" enctype="multipart/form-data">
+            <dl>
+		        <p>
+			        <input type="file" name="file" autocomplete="off" required>
+		        </p>
+            </dl>
+            <p>
+                <input type="submit" value="Submit">
+            </p>
+        </form>
+    </div>
+    <!--
+    {% include 'footer.html' %} -->
 </body>
+
 </html>
