@@ -1,5 +1,0 @@
-pytest==5.1.2
-requests
-flask
-flask-sqlalchemy
-flask-login

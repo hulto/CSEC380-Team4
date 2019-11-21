@@ -10,7 +10,7 @@ app = Flask(__name__, template_folder='webserver/templates')
 app.register_blueprint(auth)
 app.register_blueprint(videos)
 
-app.config['UPLOAD_FOLDER'] = "/tmp/"
+app.config['UPLOAD_FOLDER'] = "./uploads"
 
 app.secret_key = 'UntilOneDayWhenTheFireNationAttacked'
 login_manager = LoginManager()
@@ -29,7 +29,10 @@ def index():
     username = None
     if current_user.is_authenticated:
         username = current_user.get_uname()
-    return render_template('index.html', user=username)
+    vids = db.get_all_videos()
+    for i in vids:
+        print(i.title)
+    return render_template('index.html', user=username, videos=vids)
 
 @app.route('/profile')
 def profile():

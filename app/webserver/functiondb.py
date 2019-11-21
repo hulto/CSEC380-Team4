@@ -1,9 +1,9 @@
 #import initdb as db
 import hashlib
 from flask_login import login_required, current_user, login_manager, LoginManager
+from datetime import datetime
 
-
-from .initdb import User, session
+from .initdb import User, session, Video
 
 
 def load_user(userid):
@@ -45,6 +45,16 @@ def get_all_users():
         res.append(i)
 
     return res
+
+def add_video(userid, path, title, desc):
+    newvid = Video(title=title, content=path, description=desc, timestamp=datetime.utcnow(), owner=userid, views=0)
+    print("Adding video")
+    session.add(newvid)
+    session.commit()
+
+def get_all_videos():
+    videos = session.query(Video).all()
+    return videos
 
 ## TESTING
 if __name__ == "__main__":

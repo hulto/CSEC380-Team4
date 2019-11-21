@@ -44,17 +44,28 @@ class User(UserMixin, Base):
         return self.uname
 
 
-
 class Video(Base):
     __tablename__ = 'video'
 
     id = Column(Integer, primary_key=True)
     title = Column(String, nullable=False)
-    content = Column(BYTEA, nullable=False)
+    content = Column(String, nullable=False)
     description = Column(String, nullable=False)
     timestamp = Column(Date, nullable=False)
     owner = Column(Integer, ForeignKey('user.id'), nullable=False)
     views = Column(Integer,nullable=False)
+
+
+# class Video(Base):
+#     __tablename__ = 'video'
+
+#     id = Column(Integer, primary_key=True)
+#     title = Column(String, nullable=False)
+#     content = Column(BYTEA, nullable=False)
+#     description = Column(String, nullable=False)
+#     timestamp = Column(Date, nullable=False)
+#     owner = Column(Integer, ForeignKey('user.id'), nullable=False)
+#     views = Column(Integer,nullable=False)
 
 class Comment(Base):
     __tablename__ = 'comment'
@@ -78,6 +89,9 @@ user_oneeyed = User(fname='Jacob Ruud',
                     role=0)
 
 if __name__ == "__main__":
+    for tbl in reversed(meta.sorted_tables):
+        engine.execute(tbl.delete())
+    
     session.add(user_hulto)
     session.add(user_oneeyed)
 
