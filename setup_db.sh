@@ -1,0 +1,7 @@
+su postgres -c "pg_ctl init"
+su postgres -c "pg_ctl -D /var/lib/postgresql/data start"
+psql -U postgres -c "CREATE DATABASE thetube;"
+psql -U postgres -c "CREATE ROLE root"
+psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE thetube TO root"
+su postgres -c "python3 app/webserver/initdb.py "
+su postgres -c "python3 app/main.py "
