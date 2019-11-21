@@ -10,6 +10,7 @@ app = Flask(__name__, template_folder='webserver/templates')
 app.register_blueprint(auth)
 app.register_blueprint(videos)
 
+app.config['UPLOAD_FOLDER'] = "/tmp/"
 
 app.secret_key = 'UntilOneDayWhenTheFireNationAttacked'
 login_manager = LoginManager()
