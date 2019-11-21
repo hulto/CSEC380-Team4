@@ -6,7 +6,6 @@ from webserver.auth import auth
 app = Flask(__name__, template_folder='webserver/templates')
 app.register_blueprint(auth)
 
-
 @app.route('/')
 def index():
     return render_template('index.html')
