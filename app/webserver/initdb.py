@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy import Column, Integer, String, BLOB, Date, ForeignKey
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-from flask_login import UserMixin, LoginManager
+from flask_login import UserMixin, LoginManager, login_manager
 
 Base = declarative_base()
 
@@ -15,7 +15,7 @@ engine = create_engine('sqlite:////tmp/tmpdb.sql')
 Session = sessionmaker(bind=engine)
 session = Session()
 
-class User(Base):
+class User(UserMixin, Base):
     __tablename__ = 'user'
     
     id = Column(Integer, primary_key=True)
@@ -23,6 +23,20 @@ class User(Base):
     uname = Column(String, nullable=False, unique=True)
     passwd = Column(String(128), nullable=False)
     role = Column(Integer, nullable=False)
+
+    def is_active():
+        return True
+
+    def is_authenticated():
+        return True
+    
+    def is_anonymous():
+        return False
+
+    def get_id(myid):
+        return myid.id
+
+
 
 class Video(Base):
     __tablename__ = 'video'
@@ -60,10 +74,23 @@ def load_user(user_id):
     # since the user_id is just the primary key of our user table, use it in the query for the user
     return User.query.get(int(user_id))
 
+def callback2(a):
+    print(a)
+    return True
+
+@login_manager.LoginManager.user_loader(LoginManager, callback2)
+def load_user(userid):
+    try:
+        return session.query(User).filter(User.id == userid).first()
+    except models.DoesNotExist :
+        return None
+
 
 if __name__ == "__main__":
     session.add(user_hulto)
     session.add(user_oneeyed)
+
+    session.query(User).get(int(0))
 
     session.commit()
 
