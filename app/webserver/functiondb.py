@@ -1,27 +1,33 @@
 #import initdb as db
 import hashlib
-from flask_login import LoginManager
+from flask_login import login_required, current_user, login_manager, LoginManager
 
 
-from .initdb import User
+from .initdb import User, session
 
 
-def load_user(user_id):
-    # since the user_id is just the primary key of our user table, use it in the query for the user
-    return User.query.get(int(user_id))
+def load_user(userid):
+    try:
+        print("Login manager managing")
+        print(session.query(User).filter(User.id == userid).first())
+        print("Yoinks")
+        return session.query(User).filter(User.id == userid).first()
+    except Exception as e :
+        return None
+
 
 """
 Given a username and a password check it against the database
 """
 def check_password(username, password):
-    res = False
-    query = db.session.query(db.User)
-    query = query.filter(db.User.uname==username).one()
+    res = None
+    query = session.query(User)
+    tmp = query.filter(User.uname==username).one()
 
-    real_password = query.passwd
+    real_password = tmp.passwd
     check_password = hashlib.sha512(password.encode()).hexdigest()
     if real_password == check_password:
-        res = True
+        res = tmp
 
     return res
 
