@@ -47,7 +47,8 @@ def login_post():
     #user = db.session.query(User).filter_by(uname=username).first()
     user = None
     user = db.check_password(username, password)
-    if not user:
+    if user == None:
+        print("Auth failed")
         flash('Please check your login details and try again.')
         return redirect(url_for('auth.login'))
     

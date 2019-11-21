@@ -30,7 +30,7 @@ class User(UserMixin, Base):
         return True
 
     def is_authenticated(a):
-        print("a.uname == %s" % (str(a.uname)))
+        #print("a.uname == %s" % (str(a.uname)))
         #print("is_authenticated(%s)" % (str(a)))
         return True
     
@@ -76,22 +76,6 @@ user_oneeyed = User(fname='Jacob Ruud',
                     uname='oneeyedgrape',
                     passwd=password123_hash,
                     role=0)
-
-def load_user(user_id):
-    # since the user_id is just the primary key of our user table, use it in the query for the user
-    return User.query.get(int(user_id))
-
-def callback2(a):
-    print(a)
-    return True
-
-@login_manager.LoginManager.user_loader(LoginManager, callback2)
-def load_user(userid):
-    try:
-        return session.query(User).filter(User.id == userid).first()
-    except models.DoesNotExist :
-        return None
-
 
 if __name__ == "__main__":
     session.add(user_hulto)

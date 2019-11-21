@@ -23,7 +23,8 @@ def check_password(username, password):
     try:
         tmp = query.filter(User.uname==username).one()
     except Exception as e:
-        return "None"
+        print("check_password failed")
+        return None
 
     real_password = tmp.passwd
     check_password = hashlib.sha512(password.encode()).hexdigest()
