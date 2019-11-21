@@ -6,6 +6,8 @@ from webserver.videos import videos
 
 from webserver import functiondb as db
 
+import os
+
 app = Flask(__name__, template_folder='webserver/templates')
 app.register_blueprint(auth)
 app.register_blueprint(videos)
@@ -26,6 +28,7 @@ def load_user_main(userid):
 
 @app.route('/')
 def index():
+    print(os.getcwd())
     username = None
     if current_user.is_authenticated:
         username = current_user.get_uname()

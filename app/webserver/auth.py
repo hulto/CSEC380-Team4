@@ -31,6 +31,8 @@ def logout():
 def signup_post():
     username = request.form.get('username')
     password = request.form.get('password')
+    first = "test123"
+    db.add_user(first, username, password, 0)
 
     return redirect(url_for('auth.login'))
 

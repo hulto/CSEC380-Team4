@@ -52,6 +52,16 @@ def add_video(userid, path, title, desc):
     session.add(newvid)
     session.commit()
 
+def add_user(first, user, password, role):
+    newuser = User(fname=first,
+                  uname=user,
+                  passwd=hashlib.sha512(password.encode()).hexdigest(),
+                  role=0)
+    print("Adding user %s %s" % (user, password))
+    session.add(newuser)
+    session.commit()
+
+
 def get_all_videos():
     videos = session.query(Video).all()
     return videos
@@ -59,3 +69,14 @@ def get_all_videos():
 ## TESTING
 if __name__ == "__main__":
     print(check_password('hulto', 'password123'))
+
+
+'''
+password123_hash = "bed4efa1d4fdbd954bd3705d6a2a78270ec9a52ecfbfb010c61862af5c76af1761ffeb1aef6aca1bf5d02b3781aa854fabd2b69c790de74e17ecfec3cb6ac4bf"
+user_hulto = User(fname='Jack McKenna',
+                  uname='hulto',
+                  passwd=password123_hash,
+                  role=0)
+
+check_password = hashlib.sha512(password.encode()).hexdigest()
+'''
