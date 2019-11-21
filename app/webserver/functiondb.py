@@ -20,6 +20,7 @@ def load_user(userid):
 Given a username and a password check it against the database
 """
 def check_password(username, password):
+    print("check_password(%s, %s)" % (username, password))
     res = None
     query = session.query(User)
     tmp = query.filter(User.uname==username).one()

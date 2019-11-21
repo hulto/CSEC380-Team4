@@ -1,7 +1,7 @@
 # auth.py
 
 from flask import Blueprint, render_template, request, url_for, redirect, flash
-from flask_login import login_user, login_manager
+from flask_login import login_user, login_manager, logout_user, current_user
 from webserver import functiondb as db
 
 
@@ -10,8 +10,11 @@ auth = Blueprint('auth', 'auth', template_folder='webserver/templates')
 
 @auth.route('/login')
 def login():
+    print("Current user")
+    print(current_user)
+    if(current_user.is_authenticated):
+        return redirect('/')
     return render_template('login.html')
-
 
 @auth.route('/signup')
 def signup():
@@ -20,7 +23,8 @@ def signup():
 
 @auth.route('/logout')
 def logout():
-    return 'Logout'
+    logout_user()
+    return redirect('/')
 
 
 @auth.route('/signup', methods=['POST'])
@@ -33,6 +37,7 @@ def signup_post():
 
 @auth.route('/login', methods=['POST'])
 def login_post():
+    
     username = request.form.get('username')
     password = request.form.get('password')
     remember = True if request.form.get('remember') else False
