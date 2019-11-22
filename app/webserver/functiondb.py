@@ -2,7 +2,7 @@
 import hashlib
 from flask_login import login_required, current_user, login_manager, LoginManager
 from datetime import datetime
-
+from os import remove as os_rm
 from .initdb import User, session, Video
 
 
@@ -69,6 +69,17 @@ def get_all_videos():
 def get_video(v_id):
     video = session.query(Video).filter_by(id = int(v_id)).one()
     return video
+
+def is_owner(v_id, o_id):
+    video = get_video(v_id)
+    if(video.owner == o_id):
+        return True
+    return False
+
+def delete_video(v_id):
+    os_rm(session.query(Video).filter_by(id=v_id).one().content)
+    session.query(Video).filter_by(id=v_id).delete()
+    session.commit()
 
 ## TESTING
 if __name__ == "__main__":

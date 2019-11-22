@@ -45,10 +45,12 @@ def upload():
         username = current_user.get_uname()
     return render_template('upload.html', user=username)
     
-@videos.route('/delete', methods=['POST'])
-def delete():
-    video_id = request.form['id']
-    return redirect('/profile')
+@videos.route('/delete/<id>', methods=['GET'])
+def delete(id):
+    print("Trying to delete video %d" % (int(id)))
+    if( db.is_owner(id, current_user.id) ):
+        db.delete_video(id)
+    return redirect('/')
 
 
 
@@ -59,6 +61,7 @@ def watch(id):
     vid = {}
     vid['title'] = video.title
     vid['content'] = "/" + "/".join(video.content.split('/')[3:])
+    vid['id'] = video.id
     print("Video title %s is at %s" % (video.title, video.content))
     username = None
     if current_user.is_authenticated:

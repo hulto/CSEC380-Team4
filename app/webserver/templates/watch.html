@@ -10,17 +10,15 @@
     <div class="container">
         <div class="col-lg">
             <h1>
-                {{ vid.title }}
+                {{ vid['title'] }}
             </h1>
             <div class="row">
                 <div class="embed-responsive embed-responsive-16by9">
-                    <video width="540" height="310" controls src="{{ vid.content }}"></video>
+                    <video width="540" height="310" controls src="{{ vid['content'] }}"></video>
                 </div>
             </div>
             <div class="row">
-                <button class="btn btn-primary btn-lg" onclick="{{ url_for('videos.delete') }}">
-                    Delete
-                </button>
+                <a class="btn btn-danger my-2 my-sm-0" href="/delete/{{ vid['id'] }}">Delete</a>
             </div>
         </div>
     </div>
