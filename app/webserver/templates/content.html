@@ -11,14 +11,13 @@
                             src="http://www.free-icons-download.net/images/commercial-male-user-icon-32765.png"
                             alt="List user">
                         <div class="gaadiex-list-item-text">
-                            <h3><a href="#">{{ vid.title }}</a></h3> <!-- url_for('watch')+vid.id -->
+                            <h3><a href="{{ url_for('videos.watch', id=vid.id) }}">{{ vid.title }}</a></h3> <!-- -->
                             <p>{{ vid.description }}</p>
                             <p>By {{ vid.owner }}</p>
                         </div>
                     </div>
                 </div>
                 {% endfor %}
-
             </div>
         </div>
     </div>

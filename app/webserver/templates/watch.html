@@ -3,18 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>TheTube - Watch</title>
-
+    {% include 'headers.html' %}
 </head>
 <body>
     <div class="container">
         <div class="col-lg">
+            <h1>
+                {{ vid.title }}
+            </h1>
             <div class="row">
                 <div class="embed-responsive embed-responsive-16by9">
-                    <iframe class="embed-responsive-item" src="{{ vid['content'] }}" allowfullscreen></iframe>
+                    <video width="540" height="310" controls>
+                        <source src="{{ vid.content }}" type="video">
+                        <!-- static/uploads/2/Screen_Recording_2019-11-21_at_12.17.34_AM.mov -->
+                    </video>
                 </div>
             </div>
             <div class="row">
-                <button onclick="{{ url_for('videos.delete') }}">
+                <button class="btn btn-primary btn-lg" onclick="{{ url_for('videos.delete') }}">
                     Delete
                 </button>
             </div>
