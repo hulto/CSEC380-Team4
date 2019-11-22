@@ -40,7 +40,10 @@ def upload():
 
             add_video(current_user.get_id(), ospathjoin(UPLOAD_FOLDER+str(current_user.get_id()), filename), filename, "Lorem Ipsum")
             return redirect('/')
-    return render_template('upload.html')
+    username = None
+    if current_user.is_authenticated:
+        username = current_user.get_uname()
+    return render_template('upload.html', user=username)
     
 @videos.route('/delete', methods=['POST'])
 def delete():
@@ -57,4 +60,7 @@ def watch(id):
     vid['title'] = video.title
     vid['content'] = "/" + "/".join(video.content.split('/')[3:])
     print("Video title %s is at %s" % (video.title, video.content))
-    return render_template('watch.html', vid=vid)
+    username = None
+    if current_user.is_authenticated:
+        username = current_user.get_uname()
+    return render_template('watch.html', vid=vid, user=username)
