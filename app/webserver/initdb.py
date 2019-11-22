@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, MetaData
 from sqlalchemy import Column, Integer, String, BLOB, Date, ForeignKey
 from sqlalchemy.dialects.postgresql import BYTEA
 from sqlalchemy.orm import sessionmaker
@@ -89,13 +89,10 @@ user_oneeyed = User(fname='Jacob Ruud',
                     role=0)
 
 if __name__ == "__main__":
-    for tbl in reversed(meta.sorted_tables):
-        engine.execute(tbl.delete())
-    
     session.add(user_hulto)
     session.add(user_oneeyed)
 
-    session.query(User).get(int(0))
+    print(session.query(User).get(int(0)))
 
     session.commit()
 

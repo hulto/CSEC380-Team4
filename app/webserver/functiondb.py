@@ -66,6 +66,10 @@ def get_all_videos():
     videos = session.query(Video).all()
     return videos
 
+def get_video(v_id):
+    video = session.query(Video).filter_by(id = int(v_id)).one()
+    return video
+
 ## TESTING
 if __name__ == "__main__":
     print(check_password('hulto', 'password123'))

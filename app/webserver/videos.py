@@ -13,7 +13,7 @@ hasher = hashlib.md5()
 
 videos = Blueprint('videos', 'videos', template_folder='webserver/templates')
 
-UPLOAD_FOLDER = "./app/uploads/"
+UPLOAD_FOLDER = "./app/webserver/static/uploads/"
 
 @videos.route('/upload',methods=['GET', 'POST'])
 def upload():
@@ -37,6 +37,7 @@ def upload():
                 print("Making dir %s" % (str(UPLOAD_FOLDER+str(current_user.get_id()))))
                 mkdir(UPLOAD_FOLDER+str(current_user.get_id()))
             file.save(ospathjoin(UPLOAD_FOLDER+str(current_user.get_id()), filename))
+
             add_video(current_user.get_id(), ospathjoin(UPLOAD_FOLDER+str(current_user.get_id()), filename), filename, "Lorem Ipsum")
             return redirect('/')
     return render_template('upload.html')
@@ -44,7 +45,16 @@ def upload():
 @videos.route('/delete', methods=['POST'])
 def delete():
     video_id = request.form['id']
-    return render_template('/profile')
+    return redirect('/profile')
 
 
 
+@videos.route('/watch/<id>')
+def watch(id):
+    print(id)
+    video = db.get_video(int(id))
+    vid = {}
+    vid['title'] = video.title
+    vid['content'] = "/" + "/".join(video.content.split('/')[3:])
+    print("Video title %s is at %s" % (video.title, video.content))
+    return render_template('watch.html', vid=vid)

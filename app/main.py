@@ -8,11 +8,11 @@ from webserver import functiondb as db
 
 import os
 
-app = Flask(__name__, template_folder='webserver/templates')
+app = Flask(__name__, template_folder='webserver/templates', static_folder='webserver/static')
 app.register_blueprint(auth)
 app.register_blueprint(videos)
 
-app.config['UPLOAD_FOLDER'] = "./uploads"
+app.config['UPLOAD_FOLDER'] = "./app/webserver/static/uploads"
 
 app.secret_key = 'UntilOneDayWhenTheFireNationAttacked'
 login_manager = LoginManager()
