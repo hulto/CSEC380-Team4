@@ -1,9 +1,13 @@
-<!-- templates/profile.html -->
-
-{% extends "base.html" %}
-
-{% block content %}
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>TheTube - View Profile</title>
+  {% include 'headers.html' %}
+</head>
+<body>
+{% include 'topnavigation.html' %}
 <h1 class="title">
   Welcome, {{ name }}!
 </h1>
-{% endblock %}
+</body>
+</html>
