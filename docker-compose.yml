@@ -1,6 +1,6 @@
 thetube:
   build: ./
   ports:
-    - "80:9000"
+    - "9000:9000"
   volumes:
     - /var/lib/postgresql/data

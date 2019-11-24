@@ -14,4 +14,4 @@ RUN pip3 install -r /app/requirements.txt
 COPY ./app /app
 COPY ./setup_db.sh /setup_db.sh
 RUN chmod +x /setup_db.sh
-RUN /setup_db.sh
+CMD ./setup_db.sh

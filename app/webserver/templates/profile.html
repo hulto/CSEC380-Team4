@@ -6,8 +6,13 @@
 </head>
 <body>
 {% include 'topnavigation.html' %}
-<h1 class="title">
-  Welcome, {{ name }}!
-</h1>
+<div class="container">
+  <h1 class="title">
+    Welcome, {{ name }}!
+  </h1>
+  <a class="btn btn-outline-success my-2 my-sm-0" href="/">Home</a>
+  <a class="btn btn-outline-success my-2 my-sm-0" href="{{ url_for('videos.upload') }}">Upload</a>
+  <a class="btn btn-outline-success my-2 my-sm-0" href="{{ url_for('auth.logout') }}">Logout</a>
+</div>
 </body>
 </html>

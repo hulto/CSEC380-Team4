@@ -35,7 +35,7 @@ def upload():
             print("User %s uploaded file %s" % (current_user.get_id(), filename))
             if(not ospathexists(UPLOAD_FOLDER+str(current_user.get_id()))):
                 print("Making dir %s" % (str(UPLOAD_FOLDER+str(current_user.get_id()))))
-                mkdir(UPLOAD_FOLDER+str(current_user.get_id()))
+                mkdir(UPLOAD_FOLDER+str(current_user.get_id()), 0o755)
             file.save(ospathjoin(UPLOAD_FOLDER+str(current_user.get_id()), filename))
 
             add_video(current_user.get_id(), ospathjoin(UPLOAD_FOLDER+str(current_user.get_id()), filename), filename, "Lorem Ipsum")
@@ -62,6 +62,8 @@ def watch(id):
     vid['title'] = video.title
     vid['content'] = "/" + "/".join(video.content.split('/')[3:])
     vid['id'] = video.id
+    vid['owner'] = video.owner
+    vid['description'] = video.description
     print("Video title %s is at %s" % (video.title, video.content))
     username = None
     if current_user.is_authenticated:

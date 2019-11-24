@@ -8,17 +8,26 @@
 
 <body>
     {% include 'topnavigation.html' %}
-    <div class="container-fluid">
-        <form method="post" action="/upload" enctype="multipart/form-data">
-            <dl>
-		        <p>
-			        <input type="file" name="file" autocomplete="off" accept="video/" required>
-		        </p>
-            </dl>
-            <p>
-                <input type="submit" value="Submit">
-            </p>
-        </form>
+    <div class="container">
+        <div class="col-lg">
+            <div class="row">
+                <h1>
+                    New File Upload
+                </h1>
+            </div>
+            <div class="row">
+                <form method="post" action="/upload" enctype="multipart/form-data">
+                    <dl>
+                        <p>
+                            <input id="file" type="file" name="file" autocomplete="off" accept="video/">
+                        </p>
+                    </dl>
+                    <p>
+                        <input type="submit" value="Submit">
+                    </p>
+                </form>
+            </div>
+        </div>
     </div>
     <!--
     {% include 'footer.html' %} -->
