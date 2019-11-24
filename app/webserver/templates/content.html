@@ -12,8 +12,8 @@
                             alt="List user">
                         <div class="gaadiex-list-item-text">
                             <h3><a href="{{ url_for('videos.watch', id=vid.id) }}">{{ vid.title }}</a></h3> <!-- -->
-                            <p>{{ vid.description }}</p>
-                            <p>By {{ vid.owner }}</p>
+                            <p>Description: {{ vid.description }}</p>
+                            <p>By: {{ vid.owner }}</p>
                         </div>
                     </div>
                 </div>
