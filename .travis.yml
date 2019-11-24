@@ -7,7 +7,7 @@ before_install:
   - docker-compose up -d
   
 install:
-  - pip install -r requirements.txt
+  - pip install -r ./app/requirements.txt
 
 script:
   - pytest ./testing
