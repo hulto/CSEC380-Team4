@@ -1,0 +1,29 @@
+<html>
+
+<head>
+    {% include 'headers.html' %}
+</head>
+
+<body>
+    {% include 'topnavigation.html' %}
+    <div class="container-fluid">
+        <h1>
+            Please Signup
+        </h1>
+        <form method="POST" action="/signup">
+            <div class="form-group">
+                <div class="control">
+                    <input class="input is-large" type="text" name="username" placeholder="Your Username">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="control">
+                    <input class="input is-large" type="password" name="password" placeholder="Your Password">
+                </div>
+            </div>
+            <button class="button is-block is-info is-large is-fullwidth">Signup</button>
+        </form>
+    </div>
+</body>
+
+</html>

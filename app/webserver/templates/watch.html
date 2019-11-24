@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TheTube - Watch</title>
+    {% include 'headers.html' %}
+</head>
+<body>
+    {% include 'topnavigation.html' %}
+    <div class="container">
+        <div class="col-lg">
+            <div class="row">
+                <h1>
+                    {{ vid['title'] }}
+                </h1>
+            </div>
+            <div class="row">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <video width="540" height="310" controls src="{{ vid['content'] }}"></video>
+                </div>
+            </div>
+            <div class="row">
+                <p>Description: {{ vid['description'] }}</p>
+            </div>
+            <div class="row">
+                <p>By: {{ vid['owner'] }}</p>
+            </div>
+            {% if user is not none %}
+            <div class="row">
+                <a class="btn btn-danger my-2 my-sm-0" href="/delete/{{ vid['id'] }}">Delete</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
