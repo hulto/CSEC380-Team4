@@ -3,7 +3,8 @@ import hashlib
 from flask_login import login_required, current_user, login_manager, LoginManager
 from datetime import datetime
 from os import remove as os_rm
-from .initdb import User, session, Video
+import subprocess
+from .initdb import User, session, Video, engine
 
 
 def load_user(userid):
@@ -80,6 +81,43 @@ def delete_video(v_id):
     os_rm(session.query(Video).filter_by(id=v_id).one().content)
     session.query(Video).filter_by(id=v_id).delete()
     session.commit()
+
+#Vulnerable version
+def search_video(search_term):
+    # result = session.execute(
+    #         "SELECT * FROM video WHERE title LIKE '%s'" % (search_term)                # {"param":v_id}
+    #     ) 
+    # print(result.fetchall())
+    # session.commit()
+    # videos = result.fetchall()
+    # videos = session.query(Video).filter(Videos.title="{}".format(search_term)).all()
+    videos = session.query(Video).filter(Video.title.like("%%%s%%" % search_term))
+    return videos
+
+#Command injection 
+# http://localhost:9000/search2/test*%22;%20ping%20-c%205%208.8.8.8;%20%22
+def search_video2(search_term):
+    result=subprocess.getoutput('find ./app/webserver/static/uploads/* -name "%s"' % (search_term))
+    videos = []
+    for i in result.split('\n'):
+        v_title = i.split("/")[-1]
+        v_user = i.split("/")[-2]
+        newvid = Video(id=0, title=v_title, content=i, description="Lorem ipsum", timestamp=datetime.utcnow(), owner=v_user, views=0)
+        videos.append(newvid)
+    return videos
+
+#Classic sqli http://localhost:9000/sqli/testvid1'%20OR%201=1;%20--
+#Blind sqli http://localhost:9000/sqli/testvid';%20pg_sleep(5);%20--
+def sqli(term):
+    con = engine.connect()
+    # rs = con.execute("SELECT * FROM video WHERE title LIKE '"+term+"'")
+    qstr = "SELECT * FROM video WHERE title LIKE '"+term+"'"
+    rs = con.execute(qstr)
+    #print(rs)
+    res = rs.fetchall()
+    print(res)
+    con.close()
+    return res
 
 ## TESTING
 if __name__ == "__main__":

@@ -13,6 +13,7 @@ Base = declarative_base()
 # sqlite for testing... [TODO]
 #engine = create_engine('sqlite:////tmp/tmpdb.sql')
 engine = create_engine('postgresql://localhost/thetube')
+con = engine.connect()
 
 Session = sessionmaker(bind=engine)
 session = Session()
