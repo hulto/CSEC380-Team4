@@ -4,7 +4,7 @@ from flask_login import login_required, current_user, login_manager, LoginManage
 from datetime import datetime
 from os import remove as os_rm
 import subprocess
-from .initdb import User, session, Video
+from .initdb import User, session, Video, engine
 
 
 def load_user(userid):
@@ -94,19 +94,30 @@ def search_video(search_term):
     videos = session.query(Video).filter(Video.title.like("%%%s%%" % search_term))
     return videos
 
+#Command injection 
+# http://localhost:9000/search2/test*%22;%20ping%20-c%205%208.8.8.8;%20%22
 def search_video2(search_term):
     result=subprocess.getoutput('find ./app/webserver/static/uploads/* -name "%s"' % (search_term))
     videos = []
     for i in result.split('\n'):
-        print(i)
         v_title = i.split("/")[-1]
-        print(v_title)
         v_user = i.split("/")[-2]
-        print(v_user)
         newvid = Video(id=0, title=v_title, content=i, description="Lorem ipsum", timestamp=datetime.utcnow(), owner=v_user, views=0)
         videos.append(newvid)
     return videos
 
+#Classic sqli http://localhost:9000/sqli/testvid1'%20OR%201=1;%20--
+#Blind sqli http://localhost:9000/sqli/testvid';%20pg_sleep(5);%20--
+def sqli(term):
+    con = engine.connect()
+    # rs = con.execute("SELECT * FROM video WHERE title LIKE '"+term+"'")
+    qstr = "SELECT * FROM video WHERE title LIKE '"+term+"'"
+    rs = con.execute(qstr)
+    #print(rs)
+    res = rs.fetchall()
+    print(res)
+    con.close()
+    return res
 
 ## TESTING
 if __name__ == "__main__":

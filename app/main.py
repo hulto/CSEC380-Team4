@@ -28,7 +28,6 @@ def load_user_main(userid):
 
 @app.route('/')
 def index():
-    print(os.getcwd())
     username = None
     if current_user.is_authenticated:
         username = current_user.get_uname()
@@ -66,6 +65,20 @@ def search2(term):
         username = current_user.get_uname()
     vids = db.search_video2(term)
     return render_template('index.html', user=username, videos=vids)
+
+@app.route('/sqli/')
+def sqli_blank():
+    username = None
+    if current_user.is_authenticated:
+        username = current_user.get_uname()
+    vids = db.get_all_videos()
+    return render_template('index.html', user=username, videos=vids)
+
+
+@app.route('/sqli/<term>')
+def sqli(term):
+    t = db.sqli(term)
+    return render_template('debug.html', text=t)
 
 
 if __name__ == "__main__":
