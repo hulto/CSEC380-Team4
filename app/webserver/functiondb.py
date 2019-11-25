@@ -3,6 +3,7 @@ import hashlib
 from flask_login import login_required, current_user, login_manager, LoginManager
 from datetime import datetime
 from os import remove as os_rm
+import subprocess
 from .initdb import User, session, Video
 
 
@@ -80,6 +81,32 @@ def delete_video(v_id):
     os_rm(session.query(Video).filter_by(id=v_id).one().content)
     session.query(Video).filter_by(id=v_id).delete()
     session.commit()
+
+#Vulnerable version
+def search_video(search_term):
+    # result = session.execute(
+    #         "SELECT * FROM video WHERE title LIKE '%s'" % (search_term)                # {"param":v_id}
+    #     ) 
+    # print(result.fetchall())
+    # session.commit()
+    # videos = result.fetchall()
+    # videos = session.query(Video).filter(Videos.title="{}".format(search_term)).all()
+    videos = session.query(Video).filter(Video.title.like("%%%s%%" % search_term))
+    return videos
+
+def search_video2(search_term):
+    result=subprocess.getoutput('find ./app/webserver/static/uploads/* -name "%s"' % (search_term))
+    videos = []
+    for i in result.split('\n'):
+        print(i)
+        v_title = i.split("/")[-1]
+        print(v_title)
+        v_user = i.split("/")[-2]
+        print(v_user)
+        newvid = Video(id=0, title=v_title, content=i, description="Lorem ipsum", timestamp=datetime.utcnow(), owner=v_user, views=0)
+        videos.append(newvid)
+    return videos
+
 
 ## TESTING
 if __name__ == "__main__":

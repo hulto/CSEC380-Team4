@@ -33,8 +33,6 @@ def index():
     if current_user.is_authenticated:
         username = current_user.get_uname()
     vids = db.get_all_videos()
-    for i in vids:
-        print(i.title)
     return render_template('index.html', user=username, videos=vids)
 
 @app.route('/profile')
@@ -42,6 +40,33 @@ def profile():
     print("Profile is authed? %s" % (str(current_user.is_authenticated)))
     print(current_user.get_uname())
     return render_template('profile.html', name=current_user.get_uname())
+
+
+@app.route('/search/')
+def search_plain():
+    username = None
+    if current_user.is_authenticated:
+        username = current_user.get_uname()
+    vids = db.get_all_videos()
+    return render_template('index.html', user=username, videos=vids)
+
+
+@app.route('/search/<term>')
+def search(term):
+    username = None
+    if current_user.is_authenticated:
+        username = current_user.get_uname()
+    vids = db.search_video(term)
+    return render_template('index.html', user=username, videos=vids)
+
+@app.route('/search2/<term>')
+def search2(term):
+    username = None
+    if current_user.is_authenticated:
+        username = current_user.get_uname()
+    vids = db.search_video2(term)
+    return render_template('index.html', user=username, videos=vids)
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=9000, host='0.0.0.0')
